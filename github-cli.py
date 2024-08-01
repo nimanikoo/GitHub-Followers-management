@@ -11,11 +11,11 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 def main():
     commands = {
-        'followers': 'List your followers',
-        'following': 'List users you are following',
-        'non-followers': 'List users you follow who do not follow you back',
-        'unfollowers': 'List users who unfollowed you since last check',
-        'unfollow-non-followers': 'Unfollow users who do not follow you back'
+        'followers': list_followers,
+        'following': list_following,
+        'non-followers': list_non_followers,
+        'unfollowers': list_unfollowers,
+        'unfollow-non-followers': unfollow_non_followers
     }
 
     parser = argparse.ArgumentParser(description="GitHub Follower Management CLI")
@@ -31,19 +31,16 @@ def main():
         print(Fore.CYAN + Style.BRIGHT + "GitHub Follower Management CLI")
         print(Fore.YELLOW + Style.BRIGHT + "Available Commands:")
         for key, description in commands.items():
-            print(Fore.GREEN + f"{key}: {description}")
+            print(Fore.GREEN + f"{key}: {description.__doc__}")
         command = input(Fore.CYAN + "Enter the command you want to execute: ")
 
-    if command == 'followers':
-        list_followers(args.username, args.token)
-    elif command == 'following':
-        list_following(args.username, args.token)
-    elif command == 'non-followers':
-        list_non_followers(args.username, args.token)
-    elif command == 'unfollowers':
-        list_unfollowers(args.username, args.token)
-    elif command == 'unfollow-non-followers':
-        unfollow_non_followers(args.username, args.token)
+    command_func = commands.get(command)
+    if command_func:
+        try:
+            command_func(args.username, args.token)
+        except Exception as e:
+            logging.error(f"An error occurred: {e}")
+            print(Fore.RED + "An error occurred while executing the command. Please try again.")
     else:
         print(Fore.RED + "Invalid command. Exiting.")
 
