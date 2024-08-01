@@ -47,34 +47,34 @@ This tool allows you to list your followers, see who you're following, identify 
 To use the GitHub CLI tool, run the following command:
 
 ```bash
-python github_cli.py [command] --username [your-github-username] --token [your-github-token]
+python github_cli.py [command]
 ```
 
 ### Available Commands
 
 - **`followers`**: List all followers.
   ```bash
-  python github_cli.py followers --username [your-github-username] --token [your-github-token]
+  python github_cli.py followers
   ```
 
 - **`following`**: List all users you are following.
   ```bash
-  python github_cli.py following --username [your-github-username] --token [your-github-token]
+  python github_cli.py following
   ```
 
 - **`non-followers`**: List users you follow who do not follow you back.
   ```bash
-  python github_cli.py non-followers --username [your-github-username] --token [your-github-token]
+  python github_cli.py non-followers
   ```
 
 - **`unfollowers`**: List users who have unfollowed you since the last check.
   ```bash
-  python github_cli.py unfollowers --username [your-github-username] --token [your-github-token]
+  python github_cli.py unfollowers
   ```
 
 - **`unfollow-non-followers`**: Automatically unfollow users who do not follow you back.
   ```bash
-  python github_cli.py unfollow-non-followers --username [your-github-username] --token [your-github-token]
+  python github_cli.py unfollow-non-followers
   ```
 
 ## File Descriptions
@@ -83,6 +83,18 @@ python github_cli.py [command] --username [your-github-username] --token [your-g
 - **`github/api.py`**: Functions for interacting with the GitHub API.
 - **`github/utils.py`**: Utility functions for data management, including saving and loading followers.
 - **`requirements.txt`**: Lists necessary Python libraries.
+- **`env`**: Github Username and Token values
+
+```text
+GITHUB_USERNAME=USERNAME
+GITHUB_TOKEN=TOKEN
+```
+
+### Export env
+You can use `env` sample file to define your own values then use command below to export all variables into the environment:
+```sh
+export $(grep -v '^#' env | xargs)
+```
 
 ## Contributing
 

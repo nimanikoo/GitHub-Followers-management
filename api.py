@@ -41,20 +41,32 @@ def unfollow_user(username, target_user, token):
             logging.error(f"Failed to unfollow {target_user}: {response.status_code}")
 
 def list_followers(username, token):
+    """
+    List all followers.
+    """
     followers = get_user_followers(username, token)
     display_list("Followers", followers)
 
 def list_following(username, token):
+    """
+    List all users you are following.
+    """
     following = get_user_following(username, token)
     display_list("Following", following)
 
 def list_non_followers(username, token):
+    """
+    List users you follow who do not follow you back.
+    """
     following = get_user_following(username, token)
     followers = get_user_followers(username, token)
     non_followers = find_non_followers(following, followers)
     display_list("Non-Followers", non_followers)
 
 def list_unfollowers(username, token):
+    """
+    List users who have unfollowed you since the last check.
+    """
     current_followers = get_user_followers(username, token)
     previous_followers = load_previous_followers()
     save_followers(current_followers)
@@ -62,6 +74,9 @@ def list_unfollowers(username, token):
     display_list("Unfollowers", unfollowers)
 
 def unfollow_non_followers(username, token):
+    """
+    Automatically unfollow users who do not follow you back.
+    """
     following = get_user_following(username, token)
     followers = get_user_followers(username, token)
     non_followers = find_non_followers(following, followers)

@@ -1,5 +1,6 @@
 import argparse
 import logging
+import os
 from api import list_followers, list_following, list_non_followers, list_unfollowers, unfollow_non_followers
 from colorama import init, Fore, Style
 
@@ -20,8 +21,6 @@ def main():
 
     parser = argparse.ArgumentParser(description="GitHub Follower Management CLI")
     parser.add_argument('command', nargs='?', choices=commands.keys(), help="Command to execute")
-    parser.add_argument('--username', required=True, help="GitHub username")
-    parser.add_argument('--token', required=True, help="GitHub personal access token")
 
     args = parser.parse_args()
 
@@ -37,7 +36,7 @@ def main():
     command_func = commands.get(command)
     if command_func:
         try:
-            command_func(args.username, args.token)
+            command_func(os.environ.get('GITHUB_USERNAME'), os.environ.get('GITHUB_TOKEN'))
         except Exception as e:
             logging.error(f"An error occurred: {e}")
             print(Fore.RED + "An error occurred while executing the command. Please try again.")
